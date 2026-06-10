@@ -28,18 +28,28 @@ def adicionar_colaborador(entry_field, listbox, colaboradores):
 
 
 def iniciar_copia(origem_entry, destino_entry, colaboradores, log_widget):
-    pasta_origem = origem_entry.get().strip()
-    pasta_destino = destino_entry.get().strip()
+    origem_texto = origem_entry.get().strip()
+    destino_texto = destino_entry.get().strip()
 
-    if not pasta_origem:
+    if not origem_texto:
         messagebox.showerror("Erro", "Informe a pasta de origem.")
         return
+    if not destino_texto:
+        messagebox.showerror("Erro", "Informe a pasta de destino.")
+        return
+
+    pasta_origem = os.path.abspath(origem_texto)
+    pasta_destino = os.path.abspath(destino_texto)
+
     if not os.path.isdir(pasta_origem):
         messagebox.showerror("Erro", "A pasta de origem não existe.")
         return
+    if os.path.exists(pasta_destino) and not os.path.isdir(pasta_destino):
+        messagebox.showerror("Erro", "O caminho de destino não é uma pasta válida.")
+        return
 
-    if not pasta_destino:
-        messagebox.showerror("Erro", "Informe a pasta de destino.")
+    if pasta_origem == pasta_destino:
+        messagebox.showerror("Erro", "A pasta de origem e a pasta de destino não podem ser iguais.")
         return
 
     if not colaboradores:
