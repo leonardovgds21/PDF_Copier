@@ -7,22 +7,18 @@ def copiar_pdfs(pasta_origem, pasta_destino, colaboradores):
         os.makedirs(pasta_destino)
 
     arquivos = os.listdir(pasta_origem)
+    copiados = []
 
     for arquivo in arquivos:
+        if not arquivo.lower().endswith(".pdf"):
+            continue
 
-        # verifica se é PDF
-        if arquivo.lower().endswith(".pdf"):
-            
-            # verifica se contém algum nome na lista
-            for nome in colaboradores:
+        for nome in colaboradores:
+            if nome.lower() in arquivo.lower():
+                caminho_origem = os.path.join(pasta_origem, arquivo)
+                caminho_destino = os.path.join(pasta_destino, arquivo)
+                shutil.copy2(caminho_origem, caminho_destino)
+                copiados.append(arquivo)
+                break
 
-                if nome.lower() in arquivo.lower():
-                    
-                    caminho_origem = os.path.join(pasta_origem, arquivo)
-                    caminho_destino = os.path.join(pasta_destino, arquivo)
-
-                    shutil.copy2(caminho_origem, caminho_destino)
-
-                    print(f"✅ Copiado: {arquivo}")
-                    
-                    break  # evita copiar duplicado
+    return copiados
