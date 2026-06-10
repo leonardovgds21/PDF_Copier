@@ -1,4 +1,4 @@
-from config import PASTA_ORIGEM, PASTA_DESTINO
+import os
 from utils import copiar_pdfs
 
 
@@ -22,11 +22,28 @@ def solicitar_colaboradores():
             print("Por favor, responda com 's' ou 'n'.")
 
 
+def solicitar_caminho(prompt_text, deve_existir=False):
+    while True:
+        caminho = input(prompt_text).strip()
+        if not caminho:
+            print("O caminho não pode ficar vazio. Tente novamente.")
+            continue
+
+        if deve_existir and not os.path.isdir(caminho):
+            print("O caminho informado não existe ou não é uma pasta. Tente novamente.")
+            continue
+
+        return caminho
+
+
 def main():
     print("🚀 Iniciando cópia de PDFs...\n")
 
+    pasta_origem = solicitar_caminho("Digite o caminho da pasta de origem: ", deve_existir=True)
+    pasta_destino = solicitar_caminho("Digite o caminho da pasta de destino: ")
+
     colaboradores = solicitar_colaboradores()
-    copiar_pdfs(PASTA_ORIGEM, PASTA_DESTINO, colaboradores)
+    copiar_pdfs(pasta_origem, pasta_destino, colaboradores)
 
     print("\n✅ Processo finalizado!")
 
