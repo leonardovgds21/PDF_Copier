@@ -4,9 +4,9 @@ Automatize a cópia de arquivos PDF de forma rápida, simples e eficiente.
 
 ## 🚀 Sobre o projeto
 
-O **PDF Copier** é uma ferramenta desenvolvida em Python para automatizar a cópia de arquivos PDF de um diretório para outro, com base em nomes de colaboradores.
+O **PDF Copier** é uma Aplicação desktop desenvolvida em Python para automatizar a movimentação de arquivos PDF entre diretórios com base no nome dos colaboradores.
 
-Esse processo, que normalmente seria manual e repetitivo, foi transformado em uma solução automatizada, reduzindo significativamente o tempo gasto com tarefas operacionais mensais.
+O projeto nasceu para eliminar uma atividade manual recorrente realizada mensalmente, reduzindo tempo gasto na execução da tarefa, minimizando erros operacionais e aumentando a produtividade do processo.
 
 ---
 
@@ -56,7 +56,7 @@ O programa conta com uma interface gráfica moderna que permite:
 
 - Python 3
 - Tkinter (interface gráfica)
-- OS e Shutil (manipulação de arquivos)
+- Microsoft Copilot
 
 ---
 
