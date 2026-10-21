@@ -75,4 +75,26 @@ Este projeto foi desenvolvido com apoio de Inteligência Artificial, utilizando 
 
 ```bash
 python main.py
+```
 
+---
+
+## 🏗️ Como gerar o executável (.exe)
+
+O executável não fica no repositório (a pasta `dist/` está no `.gitignore`), então é preciso gerá-lo em cada máquina ou copiá-lo de uma máquina onde já foi gerado.
+
+1. Instale o PyInstaller (apenas na primeira vez):
+
+```bash
+python -m pip install pyinstaller
+```
+
+2. Na pasta do projeto, gere o executável (arquivo único, sem janela de console):
+
+```bash
+python -m PyInstaller --noconfirm --onefile --windowed --name "PDF Copier" main.py
+```
+
+3. O executável fica em `dist\PDF Copier.exe`. Ele funciona sem Python instalado e pode ser copiado para qualquer pasta.
+
+Sempre que o código for alterado, gere o executável novamente para que ele inclua as mudanças.
