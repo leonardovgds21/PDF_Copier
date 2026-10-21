@@ -25,6 +25,8 @@ O principal objetivo do projeto é:
 
 - Seleção de pasta de origem e destino via interface
 - Filtro de arquivos PDF por nome de colaborador
+- Colagem de uma lista inteira de nomes (um por linha) de uma só vez
+- Exclusão de um nome selecionado ou de todos os nomes da lista
 - Cópia automática (sem remover arquivos da origem)
 - Interface gráfica simples e intuitiva
 - Exibição de logs em tempo real

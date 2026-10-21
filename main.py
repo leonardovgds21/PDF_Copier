@@ -27,6 +27,38 @@ def adicionar_colaborador(entry_field, listbox, colaboradores):
     entry_field.delete(0, tk.END)
 
 
+def colar_colaboradores(entry_field, listbox, colaboradores):
+    try:
+        texto = entry_field.clipboard_get()
+    except tk.TclError:
+        return None
+
+    # Texto de uma linha só segue a colagem normal no campo
+    if "\n" not in texto.strip():
+        return None
+
+    adicionados = 0
+    repetidos = []
+    for linha in texto.splitlines():
+        nome = linha.strip()
+        if not nome:
+            continue
+        if nome in colaboradores:
+            repetidos.append(nome)
+            continue
+        colaboradores.append(nome)
+        listbox.insert(tk.END, nome)
+        adicionados += 1
+
+    entry_field.delete(0, tk.END)
+
+    mensagem = f"{adicionados} colaborador(es) adicionado(s)."
+    if repetidos:
+        mensagem += f"\n\n{len(repetidos)} já estava(m) na lista e foi(ram) ignorado(s):\n" + "\n".join(repetidos)
+    messagebox.showinfo("Colar lista", mensagem)
+    return "break"
+
+
 def remover_colaborador(listbox, colaboradores):
     selecao = listbox.curselection()
     if not selecao:
@@ -186,7 +218,7 @@ def criar_interface():
     collaborators_card.pack(fill=tk.X, pady=(0, 20), ipady=16)
     collaborators_card.grid_columnconfigure(0, weight=1)
 
-    tk.Label(collaborators_card, text="Nome dos colaboradores (nomes dos PDFs)", bg="#1e293b", fg="#ffffff", font=("Segoe UI", 10, "bold")).grid(row=0, column=0, sticky="w", padx=16, pady=(14, 6))
+    tk.Label(collaborators_card, text="Nome dos colaboradores (nomes dos PDFs) — cole uma lista com um nome por linha", bg="#1e293b", fg="#ffffff", font=("Segoe UI", 10, "bold")).grid(row=0, column=0, sticky="w", padx=16, pady=(14, 6))
     colaborador_entry = _create_dark_entry(collaborators_card, width=46)
     colaborador_entry.grid(row=1, column=0, padx=(16, 10), pady=(0, 16), sticky="ew")
     _create_dark_button(collaborators_card, "➕ Adicionar colaborador", lambda: adicionar_colaborador(colaborador_entry, colaboradores_listbox, colaboradores)).grid(row=1, column=1, padx=(0, 16), pady=(0, 16), sticky="e")
@@ -207,6 +239,8 @@ def criar_interface():
     )
     colaboradores_listbox.grid(row=2, column=0, columnspan=2, padx=16, pady=(0, 16), sticky="nsew")
     collaborators_card.grid_rowconfigure(2, weight=1)
+    colaborador_entry.bind("<<Paste>>", lambda event: colar_colaboradores(colaborador_entry, colaboradores_listbox, colaboradores))
+    colaborador_entry.bind("<Return>", lambda event: adicionar_colaborador(colaborador_entry, colaboradores_listbox, colaboradores))
     colaboradores_listbox.bind("<Delete>", lambda event: remover_colaborador(colaboradores_listbox, colaboradores))
 
     remove_frame = tk.Frame(collaborators_card, bg="#1e293b")
