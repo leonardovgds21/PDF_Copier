@@ -27,6 +27,29 @@ def adicionar_colaborador(entry_field, listbox, colaboradores):
     entry_field.delete(0, tk.END)
 
 
+def remover_colaborador(listbox, colaboradores):
+    selecao = listbox.curselection()
+    if not selecao:
+        messagebox.showwarning("Atenção", "Selecione um colaborador na lista para excluir.")
+        return
+
+    indice = selecao[0]
+    listbox.delete(indice)
+    del colaboradores[indice]
+
+
+def remover_todos_colaboradores(listbox, colaboradores):
+    if not colaboradores:
+        messagebox.showinfo("Informação", "A lista de colaboradores já está vazia.")
+        return
+
+    if not messagebox.askyesno("Confirmar", "Deseja excluir todos os colaboradores da lista?"):
+        return
+
+    listbox.delete(0, tk.END)
+    colaboradores.clear()
+
+
 def iniciar_copia(origem_entry, destino_entry, colaboradores, log_widget):
     origem_texto = origem_entry.get().strip()
     destino_texto = destino_entry.get().strip()
@@ -184,6 +207,12 @@ def criar_interface():
     )
     colaboradores_listbox.grid(row=2, column=0, columnspan=2, padx=16, pady=(0, 16), sticky="nsew")
     collaborators_card.grid_rowconfigure(2, weight=1)
+    colaboradores_listbox.bind("<Delete>", lambda event: remover_colaborador(colaboradores_listbox, colaboradores))
+
+    remove_frame = tk.Frame(collaborators_card, bg="#1e293b")
+    remove_frame.grid(row=3, column=0, columnspan=2, padx=16, pady=(0, 16), sticky="ew")
+    _create_dark_button(remove_frame, "🗑️ Excluir selecionado", lambda: remover_colaborador(colaboradores_listbox, colaboradores)).pack(side=tk.LEFT)
+    _create_dark_button(remove_frame, "🧹 Excluir todos", lambda: remover_todos_colaboradores(colaboradores_listbox, colaboradores)).pack(side=tk.LEFT, padx=(10, 0))
 
     action_frame = tk.Frame(container, bg="#0f172a")
     action_frame.pack(fill=tk.X, pady=(0, 20))
